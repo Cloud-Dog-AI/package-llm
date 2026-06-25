@@ -12,27 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# cloud_dog_llm — Public API
-"""Public API for cloud_dog_llm PS-50 runtime."""
-
 from __future__ import annotations
 
-from cloud_dog_llm.domain.models import LLMEvent, LLMRequest, LLMResponse, Message, SessionContext
-from cloud_dog_llm.runtime.client import LLMClient
-from cloud_dog_llm.runtime.job_invoker import JobMode, LLMJobConfig, ResourceAwareLLMInvoker
-from cloud_dog_llm.factory import get_llm_client
+from cloud_dog_llm.security.redaction import redact_secrets
 
-__version__ = "0.3.1"
 
-__all__ = [
-    "LLMClient",
-    "LLMRequest",
-    "LLMResponse",
-    "LLMEvent",
-    "Message",
-    "SessionContext",
-    "get_llm_client",
-    "JobMode",
-    "LLMJobConfig",
-    "ResourceAwareLLMInvoker",
-]
+def test_no_secret_literals_in_defaults() -> None:
+    text = open("defaults.yaml", "r", encoding="utf-8").read().lower()
+    assert "sk-" not in text
+    assert "password=" not in text
+
+
+def test_redaction_masks_common_secret_patterns() -> None:
+    msg = "Authorization: Bearer abcdefghijkl api_key=sk-test-1234"
+    redacted = redact_secrets(msg)
+    assert "abcdefgh" not in redacted
+    assert "sk-test-1234" not in redacted

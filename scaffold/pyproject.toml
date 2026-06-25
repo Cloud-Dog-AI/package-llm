@@ -1,10 +1,6 @@
 [project]
-license = { text = "Apache-2.0" }
-authors = [
-  { name = "Cloud-Dog, Viewdeck Engineering Limited" }
-]
 name = "cloud-dog-llm"
-version = "0.3.1"
+version = "0.1.0"
 description = "PS-50 LLM Interfaces for Cloud-Dog services"
 requires-python = ">=3.10"
 dependencies = [
@@ -31,14 +27,3 @@ dev = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-testpaths = ["tests"]
-
-[tool.ruff]
-line-length = 120
-target-version = "py310"
-
-[project.urls]
-"Source" = "https://github.com/cloud-dog-ai/platform-llm"

@@ -1,0 +1,65 @@
+# cloud_dog_llm — Default configuration
+# Standard: PS-50 (LLM Interfaces)
+# NO SECRETS — all API keys via Vault or os.environ
+
+llm:
+  default_provider: "ollama"
+  default_model: ""
+  connect_timeout: 30               # seconds
+  read_timeout: 300                 # seconds
+  overall_timeout: 480              # seconds
+  max_retries: 3
+  retry_backoff_base: 1.0           # seconds
+  retry_backoff_max: 30.0           # seconds
+  retry_jitter: true
+  retryable_status_codes: [502, 503, 504]
+
+providers:
+  ollama:
+    enabled: true
+    base_url: ""                    # From Vault: dev.models.ollama_*.base_url
+    model: ""                       # From Vault: dev.models.ollama_*.model
+  openrouter:
+    enabled: false
+    base_url: "https://openrouter.ai/api/v1"
+    api_key: ""                     # From Vault: dev.models.openai_*_openrouter_*.api_key
+    model: ""
+    http_referer: "https://cloud-dog.net"
+    x_title: "Cloud-Dog AI"
+  openai_compat:
+    enabled: false
+    base_url: ""
+    api_key: ""
+    model: ""
+
+embeddings:
+  provider: "ollama"
+  model: "nomic-embed-text"
+  dimension: 768
+  batch_size: 32
+
+mcp:
+  default_transport: "streamable_http"
+  session_timeout: 300              # seconds
+  output:
+    format: "text"
+    max_items: 100
+    max_chars: 10000
+    max_field_chars: 500
+
+a2a:
+  timeout: 30                       # seconds
+
+prompts:
+  template_dir: ""                  # Optional: directory for prompt templates
+
+streaming:
+  buffer_size: 100                  # Max buffered events (backpressure)
+
+governance:
+  max_prompt_tokens: 0              # 0 = no limit
+  max_output_tokens: 0              # 0 = no limit
+  allowed_providers: []             # Empty = all allowed
+  denied_providers: []
+  allowed_models: []                # Empty = all allowed
+  denied_models: []

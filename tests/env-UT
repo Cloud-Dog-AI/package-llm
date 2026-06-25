@@ -1,0 +1,2 @@
+# cloud_dog_llm — unit test environment
+CLOUD_DOG__LLM__DEFAULT_PROVIDER=ollama

@@ -1,0 +1,3 @@
+# cloud_dog_llm — integration test environment (non-secret)
+# Secrets/providers are read from Vault via VAULT_* supplied by an additional --env file
+CLOUD_DOG__LLM__DEFAULT_PROVIDER=ollama
